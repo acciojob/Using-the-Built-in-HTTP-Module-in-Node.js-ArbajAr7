@@ -1,8 +1,24 @@
 const http = require('http');
+const fs = require('fs');
 
-// TODO: Create an HTTP server
+// Create an HTTP server
+const server = http.createServer((req, res) => {
+  fs.readFile('output.txt', 'utf8', (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'text/plain');
+      res.end(`Error reading file: ${err.message}`);
+    } else {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/plain');
+      res.end(data);
+    }
+  });
+});
 
-// TODO: Listen on port 3000
-
-// DO NOT EDIT BELOW THIS LINE (Uncomment it once you are done with your code)
-
+// Listen on port 3000
+const PORT = 3000;
+server.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}/`);
+});
+  
